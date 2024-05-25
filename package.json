@@ -9,6 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/pg": "^8.11.6",
     "copy-webpack-plugin": "^12.0.2",
@@ -22,6 +24,8 @@
   },
   "dependencies": {
     "commander": "^12.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "logger": "github:zsrg/logger#v0.1.0",
