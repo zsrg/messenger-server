@@ -26,6 +26,11 @@ Example:
 }
 ```
 
+## Command line options
+
+- `-v`, `--version` - print command line options
+- `-h`, `--help` - print version
+
 ## License
 
 [MIT](./LICENSE)
