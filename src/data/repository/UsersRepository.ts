@@ -41,6 +41,56 @@ class UsersRepository extends Repository {
 
     return data.rows;
   }
+
+  /**
+   * Update password
+   * @param {string} password
+   * @param {number} id
+   * @returns {Promise<void>}
+   */
+  public async updatePassword(password: string, id: number): Promise<void> {
+    await this.client.query("UPDATE users SET password = $1 WHERE id = $2",
+      [password, id]
+    );
+  }
+
+  /**
+   * Update name
+   * @param {string} name
+   * @param {number} id
+   * @returns {Promise<void>}
+   */
+  public async updateName(name: string, id: number): Promise<void> {
+    await this.client.query("UPDATE users SET name = $1 WHERE id = $2",
+      [name, id]
+    );
+  }
+
+  /**
+   * Check login exists
+   * @param {string} login
+   * @returns {Promise<boolean>}
+   */
+  public async checkLoginExists(login: string): Promise<boolean> {
+    const data = await this.client.query(
+      "SELECT EXISTS (SELECT * FROM users WHERE login = $1)",
+      [login]
+    );
+
+    return data.rows[0]?.exists;
+  }
+
+  /**
+   * Update login
+   * @param {string} login
+   * @param {number} id
+   * @returns {Promise<void>}
+   */
+  public async updateLogin(login: string, id: number): Promise<void> {
+    await this.client.query("UPDATE users SET login = $1 WHERE id = $2",
+      [login, id]
+    );
+  }
 }
 
 export default UsersRepository;

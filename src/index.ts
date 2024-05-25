@@ -67,6 +67,14 @@ app.get("/api/user/:userId?", usersController.getUser);
 
 app.get("/api/users", usersController.getUsers);
 
+// Settings
+
+app.put("/api/settings/password", usersController.changePassword);
+
+app.put("/api/settings/name", usersController.changeName);
+
+app.put("/api/settings/login", usersController.changeLogin);
+
 app.use((err, req: Request, res: Response, next: NextFunction) => {
   return res.status(HTTPStatus.InternalServerError).json({ message: err.message });
 });

@@ -27,3 +27,15 @@ export interface GetUsersRequest extends SessionRequest { }
 export interface GetUserRequest extends SessionRequest {
   params: { userId?: string };
 }
+
+export interface ChangePasswordRequest extends SessionRequest {
+  body: { currentPassword: string; newPassword: string };
+}
+
+export interface ChangeNameRequest extends SessionRequest {
+  body: { newName: string };
+}
+
+export interface ChangeLoginRequest extends SessionRequest {
+  body: { newLogin: string };
+}

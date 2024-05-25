@@ -110,6 +110,45 @@ class UsersService extends Service<UsersRepository> {
   }
 
   /**
+   * Update password
+   * @param {string} password
+   * @param {number} id
+   * @returns {Promise<void>}
+   */
+  public async updatePassword(password: string, id: number): Promise<void> {
+    await this.repository.updatePassword(password, id);
+  }
+
+  /**
+   * Update name
+   * @param {string} name
+   * @param {number} id
+   * @returns {Promise<void>}
+   */
+  public async updateName(name: string, id: number): Promise<void> {
+    await this.repository.updateName(name, id);
+  }
+
+  /**
+   * Check login exists
+   * @param {string} login
+   * @returns {Promise<boolean>}
+   */
+  public async checkLoginExists(login: string): Promise<boolean> {
+    return await this.repository.checkLoginExists(login);
+  }
+
+  /**
+   * Update login
+   * @param {string} login
+   * @param {number} id
+   * @returns {Promise<void>}
+   */
+  public async updateLogin(login: string, id: number): Promise<void> {
+    await this.repository.updateName(login, id);
+  }
+
+  /**
    * Get session object
    * @param {Session} session
    * @returns {SessionData}

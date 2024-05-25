@@ -190,6 +190,92 @@ class UsersController extends Controller<UsersService> {
       return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
     }
   };
+
+  /**
+   * Change password
+   * @param {RequestsTypes.ChangePasswordRequest} req
+   * @param {Response} res
+   */
+  public changePassword = async (req: RequestsTypes.ChangePasswordRequest, res: Response) => {
+    try {
+      const { currentPassword, newPassword }: RequestsTypes.ChangePasswordRequest["body"] = req.body;
+      const { userId }: RequestsTypes.ChangePasswordRequest["sessionData"] = req.sessionData;
+
+      if (!currentPassword || !newPassword) {
+        return res.status(HTTPStatus.BadRequest).json({ message: "Current or new password not specified" });
+      }
+
+      const userData: UserData = await this.service.getUser(userId, false);
+
+      if (currentPassword !== userData?.password) {
+        return res.status(HTTPStatus.Forbidden).json({ message: "Invalid current password" });
+      }
+
+      if (currentPassword === newPassword) {
+        return res.status(HTTPStatus.Conflict).json({ message: "Current and new passwords are the same" });
+      }
+
+      await this.service.updatePassword(newPassword, userId);
+      return res.status(HTTPStatus.OK).json({ message: "Password updated successfully" });
+
+    } catch (e) {
+      return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
+    }
+  };
+
+  /**
+   * Change name
+   * @param {RequestsTypes.ChangeNameRequest} req
+   * @param {Response} res
+   */
+  public changeName = async (req: RequestsTypes.ChangeNameRequest, res: Response) => {
+    try {
+      const { newName }: RequestsTypes.ChangeNameRequest["body"] = req.body;
+      const { userId }: RequestsTypes.ChangeNameRequest["sessionData"] = req.sessionData;
+
+      if (!newName) {
+        return res.status(HTTPStatus.BadRequest).json({ message: "New name not specified" });
+      }
+
+      await this.service.updateName(newName, userId);
+      return res.status(HTTPStatus.OK).json({ message: "Name updated successfully" });
+
+    } catch (e) {
+      return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
+    }
+  };
+
+  /**
+   * Change login
+   * @param {RequestsTypes.ChangeLoginRequest} req
+   * @param {Response} res
+   */
+  public changeLogin = async (req: RequestsTypes.ChangeLoginRequest, res: Response) => {
+    try {
+      const { newLogin }: RequestsTypes.ChangeLoginRequest["body"] = req.body;
+      const { userId }: RequestsTypes.ChangeLoginRequest["sessionData"] = req.sessionData;
+
+      if (!newLogin) {
+        return res.status(HTTPStatus.BadRequest).json({ message: "New login not specified" });
+      }
+
+      const userData: UserData = await this.service.getUser(userId);
+
+      if (userData.login === newLogin) {
+        return res.status(HTTPStatus.Conflict).json({ error: "SAME_LOGIN", message: "Current and new login are the same" });
+      }
+
+      if (await this.service.checkLoginExists(newLogin)) {
+        return res.status(HTTPStatus.Conflict).json({ error: "LOGIN_EXISTS", message: "New login already exists" });
+      }
+
+      await this.service.updateLogin(newLogin, userId);
+      return res.status(HTTPStatus.OK).json({ message: "Login updated successfully" });
+
+    } catch (e) {
+      return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
+    }
+  };
 }
 
 export default UsersController;
