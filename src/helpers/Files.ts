@@ -1,5 +1,6 @@
+import Logger from "logger";
+import { existsSync, mkdirSync, readFileSync } from "fs";
 import { extname } from "path";
-import { readFileSync } from "fs";
 
 class Files {
   /**
@@ -26,7 +27,18 @@ class Files {
       return file;
 
     } catch (e) {
-      console.log(e.message);
+      Logger.error(e.message);
+    }
+  }
+
+  /**
+   * Create folder if not exists
+   * @param {string} path
+   * @returns {void}
+   */
+  public static createFolderIfNotExists(path: string) {
+    if (!existsSync(path)) {
+      mkdirSync(path);
     }
   }
 }
