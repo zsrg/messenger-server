@@ -15,6 +15,12 @@ Options:
 
 - `server`
   - `port` - server port
+- `database`
+  - `user` - database user
+  - `password` - database password
+  - `host` - database host
+  - `port` - database port
+  - `database` - database name
 
 Example:
 
@@ -22,6 +28,13 @@ Example:
 {
   "server": {
     "port": 4000
+  },
+  "database": {
+    "user": "messenger",
+    "password": "password",
+    "host": "localhost",
+    "port": 5432,
+    "database": "messenger"
   }
 }
 ```

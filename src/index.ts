@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express, { Response } from "express";
 import Files from "./helpers/Files";
 import Logger, { HttpLogger } from "logger";
+import { Client } from "pg";
 import { Command } from "commander";
 import { Config } from "./types/common";
 import { CONFIG_PATH, LOGS_FOLDER } from "./constants/path";
@@ -21,14 +22,17 @@ command.parse();
 Logger.setLevel(env.NODE_ENV === "development" ? "DEBUG" : "INFO");
 Logger.setFile(LOGS_FOLDER, "{{DATE}}.log");
 
-const { server }: Config = Files.readFile(CONFIG_PATH) || {};
+const { server, database }: Config = Files.readFile(CONFIG_PATH) || {};
 
-if (!server?.port) {
+if (!server?.port || !database?.user || !database?.password || !database?.host || !database?.port || !database?.database) {
   Logger.critical("Invalid config");
   exit();
 }
 
 const app = express();
+const client = new Client(database);
+
+client.connect();
 
 const httpLogger = new HttpLogger(Logger);
 app.use(httpLogger.loggerMiddleware);

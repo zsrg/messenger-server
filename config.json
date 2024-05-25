@@ -1,5 +1,12 @@
 {
   "server": {
     "port": 4000
+  },
+  "database": {
+    "user": "messenger",
+    "password": "password",
+    "host": "localhost",
+    "port": 5432,
+    "database": "messenger"
   }
 }
