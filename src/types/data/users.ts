@@ -4,3 +4,10 @@ export interface SessionData {
   creationDate: string;
   lastActivityDate: string;
 }
+
+export interface UserData {
+  id: number;
+  login: string;
+  password?: string;
+  name: string;
+}

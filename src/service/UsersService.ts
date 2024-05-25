@@ -3,7 +3,7 @@ import Service from "./Service";
 import Session from "../data/dto/Session";
 import UsersRepository from "../data/repository/UsersRepository";
 import { Client } from "pg";
-import { SessionData } from "../types/data/users";
+import { SessionData, UserData } from "../types/data/users";
 
 class UsersService extends Service<UsersRepository> {
   private sessions: Map<string, Session>;
@@ -83,6 +83,30 @@ class UsersService extends Service<UsersRepository> {
    */
   public deleteSession(id: string): void {
     this.sessions.delete(id);
+  }
+
+  /**
+   * Get user
+   * @param {number} userId
+   * @param {boolean} [excludePassword=true]
+   * @returns {Promise<UserData>}
+   */
+  public async getUser(userId: number, excludePassword: boolean = true): Promise<UserData> {
+    const data = await this.repository.getUser(userId);
+
+    if (data && excludePassword) {
+      delete data.password;
+    }
+
+    return data;
+  }
+
+  /**
+   * Get users
+   * @returns {Promise<UserData[]>}
+   */
+  public async getUsers(): Promise<UserData[]> {
+    return await this.repository.getUsers();
   }
 
   /**

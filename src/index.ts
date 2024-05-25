@@ -61,6 +61,12 @@ app.get("/api/sessions", usersController.getSessions);
 
 app.delete("/api/session/:sessionId?", usersController.deleteSession);
 
+// Users
+
+app.get("/api/user/:userId?", usersController.getUser);
+
+app.get("/api/users", usersController.getUsers);
+
 app.use((err, req: Request, res: Response, next: NextFunction) => {
   return res.status(HTTPStatus.InternalServerError).json({ message: err.message });
 });

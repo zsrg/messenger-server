@@ -21,3 +21,9 @@ export interface GetSessionsRequest extends SessionRequest { }
 export interface DeleteSessionRequest extends SessionRequest {
   params: { sessionId?: string };
 }
+
+export interface GetUsersRequest extends SessionRequest { }
+
+export interface GetUserRequest extends SessionRequest {
+  params: { userId?: string };
+}

@@ -4,7 +4,7 @@ import UsersService from "../service/UsersService";
 import { Client } from "pg";
 import { HTTPStatus } from "../types/common";
 import { NextFunction, Response } from "express";
-import { SessionData } from "../types/data/users";
+import { SessionData, UserData } from "../types/data/users";
 
 class UsersController extends Controller<UsersService> {
   constructor(client: Client) {
@@ -145,6 +145,46 @@ class UsersController extends Controller<UsersService> {
 
       this.service.deleteSession(currentSessionId);
       return res.status(HTTPStatus.OK).json({ message: "Session deleted successfully" });
+
+    } catch (e) {
+      return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
+    }
+  };
+
+  /**
+   * Get user
+   * @param {RequestsTypes.GetUserRequest} req
+   * @param {Response} res
+   */
+  public getUser = async (req: RequestsTypes.GetUserRequest, res: Response) => {
+    try {
+      const { userId: paramsUserId }: RequestsTypes.GetUserRequest["params"] = req.params;
+      const { userId: currentUserId }: RequestsTypes.GetUserRequest["sessionData"] = req.sessionData;
+
+      const userId: number = paramsUserId ? +paramsUserId : currentUserId;
+      const userData: UserData = await this.service.getUser(userId);
+
+      if (!userData) {
+        return res.status(HTTPStatus.NotFound).json({ message: "User not found" });
+      }
+
+      return res.status(HTTPStatus.OK).json(userData);
+
+    } catch (e) {
+      return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
+    }
+  };
+
+  /**
+   * Get users
+   * @param {RequestsTypes.GetUsersRequest} req
+   * @param {Response} res
+   */
+  public getUsers = async (req: RequestsTypes.GetUsersRequest, res: Response) => {
+    try {
+      const users: UserData[] = await this.service.getUsers();
+
+      return res.status(HTTPStatus.OK).json(users);
 
     } catch (e) {
       return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
