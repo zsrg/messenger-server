@@ -1,5 +1,7 @@
 const path = require("path");
 
+const CopyPlugin = require("copy-webpack-plugin");
+
 module.exports = {
   entry: "./src/index.ts",
   mode: "production",
@@ -21,4 +23,14 @@ module.exports = {
     path: path.resolve(__dirname, "build"),
     clean: true,
   },
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "./config.json",
+          to: path.resolve(__dirname, "build"),
+        },
+      ],
+    }),
+  ],
 };
