@@ -276,6 +276,26 @@ class UsersController extends Controller<UsersService> {
       return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
     }
   };
+
+  /**
+   * Check user exists
+   * @param {number} userId
+   * @param {Response} res
+   */
+  public checkUserExists = async (userId: number, res: Response) => {
+    try {
+      const userExists: boolean = await this.service.checkUserExists(userId);
+
+      if (!userExists) {
+        res.status(HTTPStatus.NotFound).json({ message: "User not found" });
+      }
+
+      return userExists;
+
+    } catch (e) {
+      return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
+    }
+  };
 }
 
 export default UsersController;

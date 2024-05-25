@@ -149,6 +149,15 @@ class UsersService extends Service<UsersRepository> {
   }
 
   /**
+   * Check user exists
+   * @param {number} userId
+   * @returns {Promise<boolean>}
+   */
+  public async checkUserExists(userId: number): Promise<boolean> {
+    return await this.repository.checkUserExists(userId);
+  }
+
+  /**
    * Get session object
    * @param {Session} session
    * @returns {SessionData}

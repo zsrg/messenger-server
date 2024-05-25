@@ -91,6 +91,20 @@ class UsersRepository extends Repository {
       [login, id]
     );
   }
+
+  /**
+   * Check user exists
+   * @param {number} userId
+   * @returns {Promise<boolean>}
+   */
+  public async checkUserExists(userId: number): Promise<boolean> {
+    const data = await this.client.query(
+      "SELECT EXISTS (SELECT * FROM users WHERE id = $1)",
+      [userId]
+    );
+
+    return data.rows[0]?.exists;
+  }
 }
 
 export default UsersRepository;

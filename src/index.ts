@@ -1,13 +1,14 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import DialogsController from "./controller/DialogsController";
 import dotenv from "dotenv";
-import express, { json, NextFunction, Request, Response } from "express";
+import express, { json, NextFunction, Response } from "express";
 import Files from "./helpers/Files";
 import Logger, { HttpLogger } from "logger";
 import UsersController from "./controller/UsersController";
 import { Client } from "pg";
 import { Command } from "commander";
-import { Config, HTTPStatus } from "./types/common";
+import { Config, HTTPStatus, Request } from "./types/common";
 import { CONFIG_PATH, LOGS_FOLDER } from "./constants/path";
 import { version } from "../package.json";
 
@@ -48,6 +49,15 @@ app.use(json());
 app.use(cookieParser());
 
 const usersController = new UsersController(client);
+const dialogsController = new DialogsController(client);
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  req.utils = {
+    checkUserExists: usersController.checkUserExists,
+  };
+
+  next();
+});
 
 // Session
 
@@ -74,6 +84,14 @@ app.put("/api/settings/password", usersController.changePassword);
 app.put("/api/settings/name", usersController.changeName);
 
 app.put("/api/settings/login", usersController.changeLogin);
+
+// Dialogs
+
+app.post("/api/dialogs/dialog", dialogsController.creteDialog);
+
+app.get("/api/dialogs", dialogsController.getDialogs);
+
+app.delete("/api/dialogs/dialog/:dialogId", dialogsController.deleteDialog);
 
 app.use((err, req: Request, res: Response, next: NextFunction) => {
   return res.status(HTTPStatus.InternalServerError).json({ message: err.message });

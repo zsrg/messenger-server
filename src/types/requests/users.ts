@@ -1,11 +1,11 @@
-import { Request as ExpressRequest } from "express";
+import { Request } from "../common";
+import { Response } from "express";
 import { SessionData } from "../data/users";
-
-export interface CreteSessionRequest extends ExpressRequest {
+export interface CreteSessionRequest extends Request {
   body: { login: string; password: string };
 }
 
-export interface SessionRequest extends ExpressRequest {
+export interface SessionRequest extends Request {
   cookies: { sessionId: string };
   sessionData: SessionData;
 }
@@ -38,4 +38,8 @@ export interface ChangeNameRequest extends SessionRequest {
 
 export interface ChangeLoginRequest extends SessionRequest {
   body: { newLogin: string };
+}
+
+export interface UsersRequestUtils {
+  checkUserExists: (userId: number, res: Response) => Promise<any>;
 }
