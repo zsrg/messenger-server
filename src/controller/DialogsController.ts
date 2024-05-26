@@ -76,7 +76,7 @@ class DialogsController extends Controller<DialogsService> {
         return res.status(HTTPStatus.BadRequest).json({ message: "Dialog id not specified" });
       }
 
-      if (!(await this.checkDialogExists(+dialogId, res)) || !(await this.checkDialogAccess(+dialogId, userId, res))) {
+      if (!(await req.utils.checkDialogExists(+dialogId, res)) || !(await req.utils.checkDialogAccess(+dialogId, userId, res))) {
         return;
       }
 
@@ -93,7 +93,7 @@ class DialogsController extends Controller<DialogsService> {
    * @param {number} dialogId
    * @param {Response} res
    */
-  private checkDialogExists = async (dialogId: number, res: Response) => {
+  public checkDialogExists = async (dialogId: number, res: Response) => {
     try {
       const dialogExists: boolean = await this.service.checkDialogExists(dialogId);
 
@@ -114,7 +114,7 @@ class DialogsController extends Controller<DialogsService> {
    * @param {number} userId
    * @param {Response} res
    */
-  private checkDialogAccess = async (dialogId: number, userId: number, res: Response) => {
+  public checkDialogAccess = async (dialogId: number, userId: number, res: Response) => {
     try {
       const dialogAccess: boolean = await this.service.checkUserExistsOnDialog(dialogId, userId);
 

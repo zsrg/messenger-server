@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import express, { json, NextFunction, Response } from "express";
 import Files from "./helpers/Files";
 import Logger, { HttpLogger } from "logger";
+import MessagesController from "./controller/MessagesController";
 import UsersController from "./controller/UsersController";
 import { Client } from "pg";
 import { Command } from "commander";
@@ -50,10 +51,13 @@ app.use(cookieParser());
 
 const usersController = new UsersController(client);
 const dialogsController = new DialogsController(client);
+const messagesController = new MessagesController(client);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   req.utils = {
     checkUserExists: usersController.checkUserExists,
+    checkDialogExists: dialogsController.checkDialogExists,
+    checkDialogAccess: dialogsController.checkDialogAccess,
   };
 
   next();
@@ -92,6 +96,14 @@ app.post("/api/dialogs/dialog", dialogsController.creteDialog);
 app.get("/api/dialogs", dialogsController.getDialogs);
 
 app.delete("/api/dialogs/dialog/:dialogId", dialogsController.deleteDialog);
+
+// Messages
+
+app.post("/api/messages/message", messagesController.sendMessage);
+
+app.get("/api/messages/dialog/:dialogId", messagesController.getMessages);
+
+app.delete("/api/messages/dialog/:dialogId", messagesController.deleteDialogMessages);
 
 app.use((err, req: Request, res: Response, next: NextFunction) => {
   return res.status(HTTPStatus.InternalServerError).json({ message: err.message });
