@@ -1,3 +1,4 @@
+import AttachmentsController from "./controller/AttachmentsController";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import DialogsController from "./controller/DialogsController";
@@ -7,10 +8,10 @@ import Files from "./helpers/Files";
 import Logger, { HttpLogger } from "logger";
 import MessagesController from "./controller/MessagesController";
 import UsersController from "./controller/UsersController";
+import { ATTACHMENTS_FOLDER, CONFIG_PATH, LOGS_FOLDER } from "./constants/path";
 import { Client } from "pg";
 import { Command } from "commander";
 import { Config, HTTPStatus, Request } from "./types/common";
-import { CONFIG_PATH, LOGS_FOLDER } from "./constants/path";
 import { version } from "../package.json";
 
 const { env, exit } = process;
@@ -18,6 +19,7 @@ const { env, exit } = process;
 dotenv.config({ path: [`.env.${env.NODE_ENV}.local`, `.env.${env.NODE_ENV}`] });
 
 Files.createFolderIfNotExists(LOGS_FOLDER);
+Files.createFolderIfNotExists(ATTACHMENTS_FOLDER);
 
 const command = new Command();
 command.helpOption("-h, --help", "print command line options");
@@ -52,6 +54,7 @@ app.use(cookieParser());
 const usersController = new UsersController(client);
 const dialogsController = new DialogsController(client);
 const messagesController = new MessagesController(client);
+const attachmentsController = new AttachmentsController(client);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   req.utils = {
@@ -104,6 +107,14 @@ app.post("/api/messages/message", messagesController.sendMessage);
 app.get("/api/messages/dialog/:dialogId", messagesController.getMessages);
 
 app.delete("/api/messages/dialog/:dialogId", messagesController.deleteDialogMessages);
+
+// Attachments
+
+app.post("/api/attachments/attachment", attachmentsController.createAttachment);
+
+app.get("/api/attachments/:attachmentId", attachmentsController.getAttachment);
+
+app.delete("/api/attachments/dialog/:dialogId", attachmentsController.deleteDialogAttachments);
 
 app.use((err, req: Request, res: Response, next: NextFunction) => {
   return res.status(HTTPStatus.InternalServerError).json({ message: err.message });

@@ -20,6 +20,7 @@ export enum HTTPStatus {
   Forbidden = 403,
   NotFound = 404,
   Conflict = 409,
+  UnsupportedMediaType = 415,
   InternalServerError = 500,
 }
 

@@ -1,7 +1,7 @@
 import { SessionRequest } from "./users";
 
 export interface SendMessageRequest extends SessionRequest {
-  body: { dialogId: number; text?: string };
+  body: { dialogId: number; text?: string; attachmentId?: number };
 }
 
 export interface GetMessagesRequest extends SessionRequest {

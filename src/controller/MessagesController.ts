@@ -19,7 +19,7 @@ class MessagesController extends Controller<MessagesService> {
    */
   public sendMessage = async (req: RequestsTypes.SendMessageRequest, res: Response) => {
     try {
-      const { dialogId, text }: RequestsTypes.SendMessageRequest["body"] = req.body;
+      const { dialogId, text, attachmentId }: RequestsTypes.SendMessageRequest["body"] = req.body;
       const { userId }: RequestsTypes.SendMessageRequest["sessionData"] = req.sessionData;
 
       if (!dialogId) {
@@ -30,7 +30,7 @@ class MessagesController extends Controller<MessagesService> {
         return;
       }
 
-      const data: MessageData = await this.service.createMessage(dialogId, userId, text);
+      const data: MessageData = await this.service.createMessage(dialogId, userId, text, attachmentId);
       return res.status(HTTPStatus.Created).json(data);
 
     } catch (e) {

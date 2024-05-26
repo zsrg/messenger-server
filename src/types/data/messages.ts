@@ -4,6 +4,7 @@ export interface MessageDatabaseData {
   user_id: number;
   date: string;
   text: string;
+  attachment_id: number;
 }
 
 export interface MessageData {
@@ -12,4 +13,5 @@ export interface MessageData {
   userId: number;
   date: string;
   text: string;
+  attachmentId: number;
 }

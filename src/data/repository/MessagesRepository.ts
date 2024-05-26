@@ -8,12 +8,13 @@ class MessagesRepository extends Repository {
    * @param {number} userId
    * @param {string} date
    * @param {string} text
+   * @param {number} attachmentId
    * @returns {Promise<MessageDatabaseData>}
    */
-  public async createMessage(dialogId: number, userId: number, date: string, text: string): Promise<MessageDatabaseData> {
+  public async createMessage(dialogId: number, userId: number, date: string, text: string, attachmentId: number): Promise<MessageDatabaseData> {
     const data = await this.client.query(
-      `INSERT INTO messages (dialog_id, user_id, date, text) VALUES ($1, $2, $3, $4) RETURNING *`,
-      [dialogId, userId, date, text]
+      `INSERT INTO messages (dialog_id, user_id, date, text, attachment_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [dialogId, userId, date, text, attachmentId]
     );
 
     return data.rows[0];
