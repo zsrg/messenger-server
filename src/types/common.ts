@@ -1,7 +1,7 @@
 import { ClientConfig } from "pg";
 import { DialogsRequestUtils } from "./requests/dialogs";
 import { Request as ExpressRequest } from "express";
-import { UsersRequestUtils } from "./requests/users";
+import { SendUpdate, UsersRequestUtils } from "./requests/users";
 
 export interface Config {
   server: ServerParams;
@@ -26,4 +26,5 @@ export enum HTTPStatus {
 
 export interface Request extends ExpressRequest {
   utils: UsersRequestUtils & DialogsRequestUtils;
+  sendUpdate: SendUpdate;
 }

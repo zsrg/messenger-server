@@ -14,4 +14,5 @@ export interface DeleteDialogRequest extends SessionRequest {
 export interface DialogsRequestUtils {
   checkDialogExists: (dialogId: number, res: Response) => Promise<any>;
   checkDialogAccess: (dialogId: number, userId: number, res: Response) => Promise<any>;
+  getDialogUsers: (dialogId: number, res: Response) => Promise<any>;
 }

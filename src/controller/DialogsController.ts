@@ -37,6 +37,9 @@ class DialogsController extends Controller<DialogsService> {
       }
 
       const data: DialogData = await this.service.createDialog(users);
+
+      req.sendUpdate({ type: "NEW_DIALOG", data, users }, req, res);
+
       return res.status(HTTPStatus.Created).json(data);
 
     } catch (e) {
@@ -79,6 +82,9 @@ class DialogsController extends Controller<DialogsService> {
       if (!(await req.utils.checkDialogExists(+dialogId, res)) || !(await req.utils.checkDialogAccess(+dialogId, userId, res))) {
         return;
       }
+
+      const users: number[] = await req.utils.getDialogUsers(+dialogId, res);
+      req.sendUpdate({ type: "DELETE_DIALOG", data: +dialogId, users }, req, res);
 
       await this.service.deleteDialog(+dialogId);
       return res.status(HTTPStatus.OK).json({ message: "Dialog deleted successfully" });
@@ -124,6 +130,19 @@ class DialogsController extends Controller<DialogsService> {
 
       return dialogAccess;
 
+    } catch (e) {
+      return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
+    }
+  };
+
+  /**
+   * Get dialog users
+   * @param {number} dialogId
+   * @param {Response} res
+   */
+  public getDialogUsers = async (dialogId: number, res: Response) => {
+    try {
+      return (await this.service.getDialog(dialogId))?.users;
     } catch (e) {
       return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
     }

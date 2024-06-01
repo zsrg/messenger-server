@@ -31,6 +31,10 @@ class MessagesController extends Controller<MessagesService> {
       }
 
       const data: MessageData = await this.service.createMessage(dialogId, userId, text, attachmentId);
+
+      const users: number[] = await req.utils.getDialogUsers(dialogId, res);
+      req.sendUpdate({ type: "NEW_MESSAGE", data, users }, req, res);
+
       return res.status(HTTPStatus.Created).json(data);
 
     } catch (e) {

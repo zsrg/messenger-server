@@ -1,5 +1,6 @@
 import * as RequestsTypes from "../types/requests/users";
 import Controller from "./Controller";
+import Logger from "logger";
 import UsersService from "../service/UsersService";
 import { Client } from "pg";
 import { HTTPStatus } from "../types/common";
@@ -32,6 +33,8 @@ class UsersController extends Controller<UsersService> {
       }
 
       res.cookie("sessionId", sessionData.id, { httpOnly: true });
+
+      req.sendUpdate({ type: "NEW_SESSION", data: sessionData, users: sessionData.userId }, { ...req, sessionData } as RequestsTypes.SessionRequest, res);
 
       return res.status(HTTPStatus.Created).json(sessionData);
 
@@ -139,11 +142,19 @@ class UsersController extends Controller<UsersService> {
           return res.status(HTTPStatus.Forbidden).json({ message: "Session is owned by another user" });
         }
 
+        req.sendUpdate({ type: "DELETE_SESSION", data: paramsSessionId, users: userId }, req, res);
+
+        this.service.unsubscribe(paramsSessionId);
         this.service.deleteSession(paramsSessionId);
+
         return res.status(HTTPStatus.OK).json({ message: "Session deleted successfully" });
       }
 
+      req.sendUpdate({ type: "DELETE_SESSION", data: currentSessionId, users: userId }, req, res);
+
+      this.service.unsubscribe(currentSessionId);
       this.service.deleteSession(currentSessionId);
+
       return res.status(HTTPStatus.OK).json({ message: "Session deleted successfully" });
 
     } catch (e) {
@@ -216,6 +227,7 @@ class UsersController extends Controller<UsersService> {
       }
 
       await this.service.updatePassword(newPassword, userId);
+
       return res.status(HTTPStatus.OK).json({ message: "Password updated successfully" });
 
     } catch (e) {
@@ -237,7 +249,10 @@ class UsersController extends Controller<UsersService> {
         return res.status(HTTPStatus.BadRequest).json({ message: "New name not specified" });
       }
 
+      req.sendUpdate({ type: "UPDATE_NAME", data: newName, users: userId }, req, res);
+
       await this.service.updateName(newName, userId);
+
       return res.status(HTTPStatus.OK).json({ message: "Name updated successfully" });
 
     } catch (e) {
@@ -269,9 +284,58 @@ class UsersController extends Controller<UsersService> {
         return res.status(HTTPStatus.Conflict).json({ error: "LOGIN_EXISTS", message: "New login already exists" });
       }
 
+      req.sendUpdate({ type: "UPDATE_LOGIN", data: newLogin, users: userId }, req, res);
+
       await this.service.updateLogin(newLogin, userId);
+
       return res.status(HTTPStatus.OK).json({ message: "Login updated successfully" });
 
+    } catch (e) {
+      return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
+    }
+  };
+
+  /**
+   * Subscribe
+   * @param {RequestsTypes.SessionRequest} req
+   * @param {Response} res
+   */
+  public subscribe = async (req: RequestsTypes.SessionRequest, res: Response) => {
+    try {
+      const { id }: RequestsTypes.SessionRequest["sessionData"] = req.sessionData;
+
+      res.setHeader("Content-Type", "text/event-stream");
+      res.flushHeaders();
+
+      this.service.subscribe(id, res);
+
+    } catch (e) {
+      return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
+    }
+  };
+
+  /**
+   * Send update
+   * @param {RequestsTypes.UpdateData} data
+   * @param {RequestsTypes.SessionRequest} req
+   * @param {Response} res
+   */
+  public sendUpdate = async ({ type, data, users }: RequestsTypes.UpdateData, req: RequestsTypes.SessionRequest, res: Response) => {
+    try {
+      (Array.isArray(users) ? users : [users]).forEach((userId: number) => {
+        const sessions: SessionData[] = this.service.getUserSessions(userId);
+
+        sessions.forEach((sessionData: SessionData) => {
+          const subscription: Response = this.service.getSubscription(sessionData.id);
+
+          if (!subscription || (req.sessionData?.userId === sessionData.userId && req.sessionData?.id === sessionData.id)) {
+            return;
+          }
+
+          subscription.write(`data: ${JSON.stringify({ type, data })}\n\n`);
+          Logger.debug(`Send update ${type} to ${sessionData.id}`);
+        });
+      })
     } catch (e) {
       return res.status(HTTPStatus.InternalServerError).json({ message: e.message });
     }

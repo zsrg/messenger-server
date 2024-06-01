@@ -28,6 +28,15 @@ class DialogsService extends Service<DialogsRepository> {
   }
 
   /**
+   * Get dialog
+   * @param {number} dialogId
+   * @returns {Promise<DialogData>}
+   */
+  public async getDialog(dialogId: number): Promise<DialogData> {
+    return await this.repository.getDialog(dialogId);
+  }
+
+  /**
    * Delete dialod
    * @param {number} dialogId
    * @returns {Promise<void>}

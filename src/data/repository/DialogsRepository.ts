@@ -31,6 +31,20 @@ class DialogsRepository extends Repository {
   }
 
   /**
+   * Get dialog
+   * @param {number} dialogId
+   * @returns {Promise<DialogData>}
+   */
+  public async getDialog(dialogId: number): Promise<DialogData> {
+    const data = await this.client.query(
+      "SELECT * FROM dialogs WHERE id = $1",
+      [dialogId]
+    );
+
+    return data.rows[0];
+  }
+
+  /**
    * Delete dialog
    * @param {number} dialogId
    * @returns {Promise<void>}

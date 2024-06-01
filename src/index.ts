@@ -61,7 +61,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     checkUserExists: usersController.checkUserExists,
     checkDialogExists: dialogsController.checkDialogExists,
     checkDialogAccess: dialogsController.checkDialogAccess,
+    getDialogUsers: dialogsController.getDialogUsers,
   };
+
+  req.sendUpdate = usersController.sendUpdate;
 
   next();
 });
@@ -115,6 +118,10 @@ app.post("/api/attachments/attachment", attachmentsController.createAttachment);
 app.get("/api/attachments/:attachmentId", attachmentsController.getAttachment);
 
 app.delete("/api/attachments/dialog/:dialogId", attachmentsController.deleteDialogAttachments);
+
+// Subscription
+
+app.get("/api/subscribe", usersController.subscribe);
 
 app.use((err, req: Request, res: Response, next: NextFunction) => {
   return res.status(HTTPStatus.InternalServerError).json({ message: err.message });

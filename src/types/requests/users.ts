@@ -1,6 +1,7 @@
 import { Request } from "../common";
 import { Response } from "express";
 import { SessionData } from "../data/users";
+
 export interface CreteSessionRequest extends Request {
   body: { login: string; password: string };
 }
@@ -43,3 +44,12 @@ export interface ChangeLoginRequest extends SessionRequest {
 export interface UsersRequestUtils {
   checkUserExists: (userId: number, res: Response) => Promise<any>;
 }
+
+export interface UpdateData {
+  type: string;
+  data: any;
+  users: number | number[];
+}
+
+export type SendUpdate = (data: UpdateData, req: SessionRequest, res: Response) => Promise<any>;
+

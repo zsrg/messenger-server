@@ -3,15 +3,18 @@ import Service from "./Service";
 import Session from "../data/dto/Session";
 import UsersRepository from "../data/repository/UsersRepository";
 import { Client } from "pg";
+import { Response } from "express";
 import { SessionData, UserData } from "../types/data/users";
 
 class UsersService extends Service<UsersRepository> {
   private sessions: Map<string, Session>;
+  private subscriptions: Map<string, Response>;
 
   constructor(client: Client) {
     super();
     this.repository = new UsersRepository(client);
     this.sessions = new Map();
+    this.subscriptions = new Map();
   }
 
   /**
@@ -155,6 +158,34 @@ class UsersService extends Service<UsersRepository> {
    */
   public async checkUserExists(userId: number): Promise<boolean> {
     return await this.repository.checkUserExists(userId);
+  }
+
+  /**
+   * Subscribe
+   * @param {string} id
+   * @param {Response} res
+   * @returns {void}
+   */
+  public subscribe(id: string, res: Response): void {
+    this.subscriptions.set(id, res);
+  }
+
+  /**
+   * Get subscription
+   * @param {string} id
+   * @returns {Response}
+   */
+  public getSubscription(id: string): Response {
+    return this.subscriptions.get(id);
+  }
+
+  /**
+   * Unsubscribe
+   * @param {string} id
+   * @returns {void}
+   */
+  public unsubscribe(id: string): void {
+    this.subscriptions.delete(id);
   }
 
   /**
