@@ -101,23 +101,23 @@ app.post("/api/dialogs/dialog", dialogsController.creteDialog);
 
 app.get("/api/dialogs", dialogsController.getDialogs);
 
-app.delete("/api/dialogs/dialog/:dialogId", dialogsController.deleteDialog);
+app.delete("/api/dialogs/dialog/:dialogId?", dialogsController.deleteDialog);
 
 // Messages
 
 app.post("/api/messages/message", messagesController.sendMessage);
 
-app.get("/api/messages/dialog/:dialogId", messagesController.getMessages);
+app.get("/api/messages/dialog/:dialogId?", messagesController.getMessages);
 
-app.delete("/api/messages/dialog/:dialogId", messagesController.deleteDialogMessages);
+app.delete("/api/messages/dialog/:dialogId?", messagesController.deleteDialogMessages);
 
 // Attachments
 
 app.post("/api/attachments/attachment", attachmentsController.createAttachment);
 
-app.get("/api/attachments/:attachmentId", attachmentsController.getAttachment);
+app.get("/api/attachments/:attachmentId?", attachmentsController.getAttachment);
 
-app.delete("/api/attachments/dialog/:dialogId", attachmentsController.deleteDialogAttachments);
+app.delete("/api/attachments/dialog/:dialogId?", attachmentsController.deleteDialogAttachments);
 
 // Subscription
 
