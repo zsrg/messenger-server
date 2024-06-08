@@ -1,0 +1,603 @@
+{
+	"info": {
+		"name": "Messenger server API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Session",
+			"item": [
+				{
+					"name": "Create session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"sessionId\", pm.response.json().id);\r",
+									"pm.collectionVariables.set(\"userId\", pm.response.json().userId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"user1\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/api/session",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"session"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get session",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/session/{{sessionId}}",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"{{sessionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get current session",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/session",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"session"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get sessions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/sessions",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete session",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/session/{{sessionId}}",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"{{sessionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete current session",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/session",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"session"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get user info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/user/{{userId}}",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get current user info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/user",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/users",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Settings",
+			"item": [
+				{
+					"name": "Change password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\": \"password\",\r\n    \"newPassword\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/api/settings/password",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"settings",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change name",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newName\": \"user123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/api/settings/name",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"settings",
+								"name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change login",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newLogin\": \"user123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/api/settings/login",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"settings",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dialogs",
+			"item": [
+				{
+					"name": "Create dialog",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"dialogId\", pm.response.json().id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/api/dialogs/dialog",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"dialogs",
+								"dialog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get dialogs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/dialogs",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"dialogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete dialog",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/dialogs/dialog/{{dialogId}}",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"dialogs",
+								"dialog",
+								"{{dialogId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Attachments",
+			"item": [
+				{
+					"name": "Create attachment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"attachmentId\", pm.response.json().id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dialogId\": 42,\r\n    \"base64\": \"data:image/png;base64,...\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/api/attachments/attachment",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"attachments",
+								"attachment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get attachment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/attachments/{{attachmentId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"attachments",
+								"{{attachmentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete dialog attachments",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/attachments/dialog/{{dialogId}}",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"attachments",
+								"dialog",
+								"{{dialogId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Create message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"messageId\", pm.response.json().id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dialogId\": {{dialogId}},\r\n    \"text\": \"Test message 1\",\r\n    \"attachmentId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/api/messages/message",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"messages",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get messages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/messages/dialog/{{dialogId}}?limit=3&offset=0",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"messages",
+								"dialog",
+								"{{dialogId}}"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete dialog messages",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/messages/dialog/{{dialogId}}",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"messages",
+								"dialog",
+								"{{dialogId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subscribe",
+			"item": [
+				{
+					"name": "Subscribe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/api/subscribe",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"api",
+								"subscribe"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "sessionId",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "dialogId",
+			"value": ""
+		},
+		{
+			"key": "attachmentId",
+			"value": ""
+		},
+		{
+			"key": "serverUrl",
+			"value": "http://localhost:4000"
+		}
+	]
+}

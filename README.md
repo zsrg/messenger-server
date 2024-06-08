@@ -44,6 +44,20 @@ Example:
 - `-v`, `--version` - print command line options
 - `-h`, `--help` - print version
 
+## Database
+
+- Database scripts: [database.sql](./docs/database.sql)
+
+## API
+
+- API description: [api.md](./docs/api.md)
+- Postman collection: [api.json](./docs/api.json)
+
+## Requirements
+
+- Node.js: 20.12.2
+- PostgreSQL: 14.0
+
 ## License
 
 [MIT](./LICENSE)
