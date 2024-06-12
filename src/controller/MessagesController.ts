@@ -23,7 +23,7 @@ class MessagesController extends Controller<MessagesService> {
       const { userId }: RequestsTypes.SendMessageRequest["sessionData"] = req.sessionData;
 
       if (!dialogId) {
-        return res.status(HTTPStatus.BadRequest).json({ message: "Dialog id not specified" });
+        return res.status(HTTPStatus.BadRequest).json({ code: "DIALOG_ID_NOT_SPECIFIED", message: "Dialog id not specified" });
       }
 
       if (!(await req.utils.checkDialogExists(dialogId, res)) || !(await req.utils.checkDialogAccess(dialogId, userId, res))) {
@@ -54,7 +54,7 @@ class MessagesController extends Controller<MessagesService> {
       const { userId }: RequestsTypes.GetMessagesRequest["sessionData"] = req.sessionData;
 
       if (!dialogId) {
-        return res.status(HTTPStatus.BadRequest).json({ message: "Dialog id not specified" });
+        return res.status(HTTPStatus.BadRequest).json({ code: "DIALOG_ID_NOT_SPECIFIED", message: "Dialog id not specified" });
       }
 
       if (!(await req.utils.checkDialogExists(+dialogId, res)) || !(await req.utils.checkDialogAccess(+dialogId, userId, res))) {
@@ -80,7 +80,7 @@ class MessagesController extends Controller<MessagesService> {
       const { userId }: RequestsTypes.DeleteDialogMessagesRequest["sessionData"] = req.sessionData;
 
       if (!dialogId) {
-        return res.status(HTTPStatus.BadRequest).json({ message: "Dialog id not specified" });
+        return res.status(HTTPStatus.BadRequest).json({ code: "DIALOG_ID_NOT_SPECIFIED", message: "Dialog id not specified" });
       }
 
       if (!(await req.utils.checkDialogExists(+dialogId, res)) || !(await req.utils.checkDialogAccess(+dialogId, userId, res))) {

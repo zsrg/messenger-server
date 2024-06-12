@@ -23,13 +23,13 @@ class UsersController extends Controller<UsersService> {
       const { login, password }: RequestsTypes.CreteSessionRequest["body"] = req.body;
 
       if (!login || !password) {
-        return res.status(HTTPStatus.BadRequest).json({ message: "Login or password not specified" });
+        return res.status(HTTPStatus.BadRequest).json({ code: "LOGIN_OR_PASSWORD_NOT_SPECIFIED", message: "Login or password not specified" });
       }
 
       const sessionData: SessionData = await this.service.createSession(login, password);
 
       if (!sessionData) {
-        return res.status(HTTPStatus.Forbidden).json({ message: "Invalid login or password" });
+        return res.status(HTTPStatus.Forbidden).json({ code: "INVALID_LOGIN_OR_PASSWORD", message: "Invalid login or password" });
       }
 
       res.cookie("sessionId", sessionData.id, { httpOnly: true });
@@ -54,13 +54,13 @@ class UsersController extends Controller<UsersService> {
       const { sessionId }: RequestsTypes.CheckSessionRequest["cookies"] = req.cookies;
 
       if (!sessionId) {
-        return res.status(HTTPStatus.BadRequest).json({ message: "Session id not specified" });
+        return res.status(HTTPStatus.BadRequest).json({ code: "SESSION_ID_NOT_SPECIFIED", message: "Session id not specified" });
       }
 
       const sessionData: SessionData = this.service.getSessionData(sessionId);
 
       if (!sessionData) {
-        return res.status(HTTPStatus.Unauthorized).json({ message: "Invalid session id" });
+        return res.status(HTTPStatus.Unauthorized).json({ code: "INVALID_SESSION_ID", message: "Invalid session id" });
       }
 
       req.sessionData = sessionData;
@@ -86,11 +86,11 @@ class UsersController extends Controller<UsersService> {
         const sessionData: SessionData = this.service.getSessionData(sessionId, false);
 
         if (!sessionData) {
-          return res.status(HTTPStatus.NotFound).json({ message: "Session with given id not found" });
+          return res.status(HTTPStatus.NotFound).json({ code: "SESSION_NOT_FOUND", message: "Session with given id not found" });
         }
 
         if (sessionData.userId !== userId) {
-          return res.status(HTTPStatus.Forbidden).json({ message: "Session is owned by another user" });
+          return res.status(HTTPStatus.Forbidden).json({ code: "OTHER_USERS_SESSION", message: "Session is owned by another user" });
         }
 
         return res.status(HTTPStatus.OK).json(sessionData);
@@ -135,11 +135,11 @@ class UsersController extends Controller<UsersService> {
         const sessionData: SessionData = this.service.getSessionData(paramsSessionId, false);
 
         if (!sessionData) {
-          return res.status(HTTPStatus.NotFound).json({ message: "Session with given id not found" });
+          return res.status(HTTPStatus.NotFound).json({ code: "SESSION_NOT_FOUND", message: "Session with given id not found" });
         }
 
         if (sessionData.userId !== userId) {
-          return res.status(HTTPStatus.Forbidden).json({ message: "Session is owned by another user" });
+          return res.status(HTTPStatus.Forbidden).json({ code: "OTHER_USERS_SESSION", message: "Session is owned by another user" });
         }
 
         req.sendUpdate({ type: "DELETE_SESSION", data: paramsSessionId, users: userId }, req, res);
@@ -176,7 +176,7 @@ class UsersController extends Controller<UsersService> {
       const userData: UserData = await this.service.getUser(userId);
 
       if (!userData) {
-        return res.status(HTTPStatus.NotFound).json({ message: "User not found" });
+        return res.status(HTTPStatus.NotFound).json({ code: "USER_NOT_FOUND", message: "User not found" });
       }
 
       return res.status(HTTPStatus.OK).json(userData);
@@ -213,17 +213,17 @@ class UsersController extends Controller<UsersService> {
       const { userId }: RequestsTypes.ChangePasswordRequest["sessionData"] = req.sessionData;
 
       if (!currentPassword || !newPassword) {
-        return res.status(HTTPStatus.BadRequest).json({ message: "Current or new password not specified" });
+        return res.status(HTTPStatus.BadRequest).json({ code: "PASSWORD_NOT_SPECIFIED", message: "Current or new password not specified" });
       }
 
       const userData: UserData = await this.service.getUser(userId, false);
 
       if (currentPassword !== userData?.password) {
-        return res.status(HTTPStatus.Forbidden).json({ message: "Invalid current password" });
+        return res.status(HTTPStatus.Forbidden).json({ code: "INVALID_PASSWORD", message: "Invalid current password" });
       }
 
       if (currentPassword === newPassword) {
-        return res.status(HTTPStatus.Conflict).json({ message: "Current and new passwords are the same" });
+        return res.status(HTTPStatus.Conflict).json({ code: "SAME_PASSWORD", message: "Current and new passwords are the same" });
       }
 
       await this.service.updatePassword(newPassword, userId);
@@ -246,7 +246,7 @@ class UsersController extends Controller<UsersService> {
       const { userId }: RequestsTypes.ChangeNameRequest["sessionData"] = req.sessionData;
 
       if (!newName) {
-        return res.status(HTTPStatus.BadRequest).json({ message: "New name not specified" });
+        return res.status(HTTPStatus.BadRequest).json({ code: "NAME_NOT_SPECIFIED", message: "New name not specified" });
       }
 
       req.sendUpdate({ type: "UPDATE_NAME", data: newName, users: userId }, req, res);
@@ -271,17 +271,17 @@ class UsersController extends Controller<UsersService> {
       const { userId }: RequestsTypes.ChangeLoginRequest["sessionData"] = req.sessionData;
 
       if (!newLogin) {
-        return res.status(HTTPStatus.BadRequest).json({ message: "New login not specified" });
+        return res.status(HTTPStatus.BadRequest).json({ code: "LOGIN_NOT_SPECIFIED", message: "New login not specified" });
       }
 
       const userData: UserData = await this.service.getUser(userId);
 
       if (userData.login === newLogin) {
-        return res.status(HTTPStatus.Conflict).json({ error: "SAME_LOGIN", message: "Current and new login are the same" });
+        return res.status(HTTPStatus.Conflict).json({ code: "SAME_LOGIN", message: "Current and new login are the same" });
       }
 
       if (await this.service.checkLoginExists(newLogin)) {
-        return res.status(HTTPStatus.Conflict).json({ error: "LOGIN_EXISTS", message: "New login already exists" });
+        return res.status(HTTPStatus.Conflict).json({ code: "LOGIN_EXISTS", message: "New login already exists" });
       }
 
       req.sendUpdate({ type: "UPDATE_LOGIN", data: newLogin, users: userId }, req, res);
@@ -351,7 +351,7 @@ class UsersController extends Controller<UsersService> {
       const userExists: boolean = await this.service.checkUserExists(userId);
 
       if (!userExists) {
-        res.status(HTTPStatus.NotFound).json({ message: "User not found" });
+        res.status(HTTPStatus.NotFound).json({ code: "USER_NOT_FOUND", message: "User not found" });
       }
 
       return userExists;

@@ -23,7 +23,7 @@ class DialogsController extends Controller<DialogsService> {
       const { userId: currentUserId }: RequestsTypes.CreteDialogRequest["sessionData"] = req.sessionData;
 
       if (!userId) {
-        return res.status(HTTPStatus.BadRequest).json({ message: "User id not specified" });
+        return res.status(HTTPStatus.BadRequest).json({ code: "USER_ID_NOT_SPECIFIED", message: "User id not specified" });
       }
 
       if (!await req.utils.checkUserExists(userId, res)) {
@@ -33,7 +33,7 @@ class DialogsController extends Controller<DialogsService> {
       const users: number[] = [currentUserId, userId];
 
       if (await this.service.checkDialogExistsByUsers(users)) {
-        return res.status(HTTPStatus.Conflict).json({ message: "Dialog already exists" });
+        return res.status(HTTPStatus.Conflict).json({ code: "DIALOG_ALREADY_EXISTS", message: "Dialog already exists" });
       }
 
       const data: DialogData = await this.service.createDialog(users);
@@ -76,7 +76,7 @@ class DialogsController extends Controller<DialogsService> {
       const { userId }: RequestsTypes.DeleteDialogRequest["sessionData"] = req.sessionData;
 
       if (!dialogId) {
-        return res.status(HTTPStatus.BadRequest).json({ message: "Dialog id not specified" });
+        return res.status(HTTPStatus.BadRequest).json({ code: "DIALOG_ID_NOT_SPECIFIED", message: "Dialog id not specified" });
       }
 
       if (!(await req.utils.checkDialogExists(+dialogId, res)) || !(await req.utils.checkDialogAccess(+dialogId, userId, res))) {
@@ -104,7 +104,7 @@ class DialogsController extends Controller<DialogsService> {
       const dialogExists: boolean = await this.service.checkDialogExists(dialogId);
 
       if (!dialogExists) {
-        res.status(HTTPStatus.NotFound).json({ message: "Dialog not found" });
+        res.status(HTTPStatus.NotFound).json({ code: "DIALOG_NOT_FOUND", message: "Dialog not found" });
       }
 
       return dialogExists;
@@ -125,7 +125,7 @@ class DialogsController extends Controller<DialogsService> {
       const dialogAccess: boolean = await this.service.checkUserExistsOnDialog(dialogId, userId);
 
       if (!dialogAccess) {
-        res.status(HTTPStatus.Forbidden).json({ message: "User not in dialog" });
+        res.status(HTTPStatus.Forbidden).json({ code: "USER_NOT_IN_DIALOG", message: "User not in dialog" });
       }
 
       return dialogAccess;

@@ -6,6 +6,7 @@
 
 ```json
 {
+  "code": "SESSION_ID_NOT_SPECIFIED",
   "message": "Session id not specified"
 }
 ```
@@ -14,11 +15,19 @@
 
 ```json
 {
+  "code": "INVALID_SESSION_ID",
   "message": "Invalid session id"
 }
 ```
 
 - `404` - Returned when a valid session ID is specified but a non-existent URL is specified.
+
+```json
+{
+  "code": "UNKNOWN_REQUEST",
+  "message": "Unknown request"
+}
+```
 
 - `500` - Returned for other internal server errors. Details are provided in the message.
 
@@ -56,6 +65,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "LOGIN_OR_PASSWORD_NOT_SPECIFIED",
   "message": "Login or password not specified"
 }
 ```
@@ -64,6 +74,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "INVALID_LOGIN_OR_PASSWORD",
   "message": "Invalid login or password"
 }
 ```
@@ -93,6 +104,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "OTHER_USERS_SESSION",
   "message": "Session is owned by another user"
 }
 ```
@@ -101,6 +113,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "SESSION_NOT_FOUND",
   "message": "Session with given id not found"
 }
 ```
@@ -150,6 +163,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "OTHER_USERS_SESSION",
   "message": "Session is owned by another user"
 }
 ```
@@ -158,6 +172,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "SESSION_NOT_FOUND",
   "message": "Session with given id not found"
 }
 ```
@@ -188,6 +203,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "USER_NOT_FOUND",
   "message": "User not found"
 }
 ```
@@ -242,6 +258,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "PASSWORD_NOT_SPECIFIED",
   "message": "Current or new password not specified"
 }
 ```
@@ -250,6 +267,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "INVALID_PASSWORD",
   "message": "Invalid current password"
 }
 ```
@@ -258,6 +276,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "SAME_PASSWORD",
   "message": "Current and new passwords are the same"
 }
 ```
@@ -288,6 +307,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "NAME_NOT_SPECIFIED",
   "message": "New name not specified"
 }
 ```
@@ -318,6 +338,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "LOGIN_NOT_SPECIFIED",
   "message": "New login not specified"
 }
 ```
@@ -326,7 +347,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
-  "error": "SAME_LOGIN",
+  "code": "SAME_LOGIN",
   "message": "Current and new login are the same"
 }
 ```
@@ -335,7 +356,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
-  "error": "LOGIN_EXISTS",
+  "code": "LOGIN_EXISTS",
   "message": "New login already exists"
 }
 ```
@@ -369,6 +390,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "USER_ID_NOT_SPECIFIED",
   "message": "User id not specified"
 }
 ```
@@ -377,6 +399,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "USER_NOT_FOUND",
   "message": "User not found"
 }
 ```
@@ -385,6 +408,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_ALREADY_EXISTS",
   "message": "Dialog already exists"
 }
 ```
@@ -430,6 +454,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_ID_NOT_SPECIFIED",
   "message": "Dialog id not specified"
 }
 ```
@@ -438,6 +463,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "USER_NOT_IN_DIALOG",
   "message": "User not in dialog"
 }
 ```
@@ -446,6 +472,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_NOT_FOUND",
   "message": "Dialog not found"
 }
 ```
@@ -485,6 +512,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_ID_NOT_SPECIFIED",
   "message": "Dialog id not specified"
 }
 ```
@@ -493,6 +521,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "USER_NOT_IN_DIALOG",
   "message": "User not in dialog"
 }
 ```
@@ -501,6 +530,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_NOT_FOUND",
   "message": "Dialog not found"
 }
 ```
@@ -547,6 +577,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_ID_NOT_SPECIFIED",
   "message": "Dialog id not specified"
 }
 ```
@@ -555,6 +586,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "USER_NOT_IN_DIALOG",
   "message": "User not in dialog"
 }
 ```
@@ -563,6 +595,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_NOT_FOUND",
   "message": "Dialog not found"
 }
 ```
@@ -589,6 +622,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_ID_NOT_SPECIFIED",
   "message": "Dialog id not specified"
 }
 ```
@@ -597,6 +631,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "USER_NOT_IN_DIALOG",
   "message": "User not in dialog"
 }
 ```
@@ -605,6 +640,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_NOT_FOUND",
   "message": "Dialog not found"
 }
 ```
@@ -640,6 +676,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_ID_OR_BASE64_NOT_SPECIFIED",
   "message": "Dialog id or base64 not specified"
 }
 ```
@@ -648,6 +685,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "USER_NOT_IN_DIALOG",
   "message": "User not in dialog"
 }
 ```
@@ -656,6 +694,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_NOT_FOUND",
   "message": "Dialog not found"
 }
 ```
@@ -664,6 +703,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "UNSUPPORTED_MEDIA_TYPE",
   "message": "Unsupported media type"
 }
 ```
@@ -684,6 +724,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "ATTACHMENT_ID_NOT_SPECIFIED",
   "message": "Attachment id not specified"
 }
 ```
@@ -692,6 +733,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "USER_NOT_IN_DIALOG",
   "message": "User not in dialog"
 }
 ```
@@ -700,6 +742,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_NOT_FOUND",
   "message": "Dialog not found"
 }
 ```
@@ -708,6 +751,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "ATTACHMENT_NOT_FOUND",
   "message": "Attachment not found"
 }
 ```
@@ -734,6 +778,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_ID_NOT_SPECIFIED",
   "message": "Dialog id not specified"
 }
 ```
@@ -742,6 +787,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "USER_NOT_IN_DIALOG",
   "message": "User not in dialog"
 }
 ```
@@ -750,6 +796,7 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 ```json
 {
+  "code": "DIALOG_NOT_FOUND",
   "message": "Dialog not found"
 }
 ```

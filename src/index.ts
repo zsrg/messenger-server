@@ -128,7 +128,7 @@ app.use((err, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use((req: Request, res: Response) => {
-  return res.status(HTTPStatus.NotFound).json({ message: "Unknown request" });
+  return res.status(HTTPStatus.NotFound).json({ code: "UNKNOWN_REQUEST", message: "Unknown request" });
 });
 
 app.listen(server.port, () => {

@@ -24,7 +24,7 @@ class AttachmentsController extends Controller<AttachmentsService> {
       const { userId }: RequestsTypes.CreteAttachmentRequest["sessionData"] = req.sessionData;
 
       if (!dialogId || !base64) {
-        return res.status(HTTPStatus.BadRequest).json({ message: "Dialog id or base64 not specified" });
+        return res.status(HTTPStatus.BadRequest).json({ code: "DIALOG_ID_OR_BASE64_NOT_SPECIFIED", message: "Dialog id or base64 not specified" });
       }
 
       if (!(await req.utils.checkDialogExists(dialogId, res)) || !(await req.utils.checkDialogAccess(dialogId, userId, res))) {
@@ -34,7 +34,7 @@ class AttachmentsController extends Controller<AttachmentsService> {
       const fileType: string = Files.getFileType(base64);
 
       if (fileType !== "png" && fileType !== "jpg" && fileType !== "jpeg") {
-        return res.status(HTTPStatus.UnsupportedMediaType).json({ message: "Unsupported media type" });
+        return res.status(HTTPStatus.UnsupportedMediaType).json({ code: "UNSUPPORTED_MEDIA_TYPE", message: "Unsupported media type" });
       }
 
       const data: AttachmentData = await this.service.createAttachment(dialogId, base64);
@@ -56,13 +56,13 @@ class AttachmentsController extends Controller<AttachmentsService> {
       const { userId }: RequestsTypes.GetAttachmentRequest["sessionData"] = req.sessionData;
 
       if (!attachmentId) {
-        return res.status(HTTPStatus.BadRequest).json({ message: "Attachment id not specified" });
+        return res.status(HTTPStatus.BadRequest).json({ code: "ATTACHMENT_ID_NOT_SPECIFIED", message: "Attachment id not specified" });
       }
 
       const { dialogId, file }: AttachmentData = (await this.service.getAttachment(+attachmentId)) || {} as AttachmentData;
 
       if (!file) {
-        return res.status(HTTPStatus.NotFound).json({ message: "Attachment not found" });
+        return res.status(HTTPStatus.NotFound).json({ code: "ATTACHMENT_NOT_FOUND", message: "Attachment not found" });
       }
 
       if (!(await req.utils.checkDialogExists(dialogId, res)) || !(await req.utils.checkDialogAccess(dialogId, userId, res))) {
@@ -87,7 +87,7 @@ class AttachmentsController extends Controller<AttachmentsService> {
       const { userId }: RequestsTypes.DeleteDialogAttachmentsRequest["sessionData"] = req.sessionData;
 
       if (!dialogId) {
-        return res.status(HTTPStatus.BadRequest).json({ message: "Dialog id not specified" });
+        return res.status(HTTPStatus.BadRequest).json({ code: "DIALOG_ID_NOT_SPECIFIED", message: "Dialog id not specified" });
       }
 
       if (!(await req.utils.checkDialogExists(+dialogId, res)) || !(await req.utils.checkDialogAccess(+dialogId, userId, res))) {
