@@ -148,7 +148,7 @@ class UsersService extends Service<UsersRepository> {
    * @returns {Promise<void>}
    */
   public async updateLogin(login: string, id: number): Promise<void> {
-    await this.repository.updateName(login, id);
+    await this.repository.updateLogin(login, id);
   }
 
   /**
