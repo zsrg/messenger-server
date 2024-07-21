@@ -27,4 +27,5 @@ export enum HTTPStatus {
 export interface Request extends ExpressRequest {
   utils: UsersRequestUtils & DialogsRequestUtils;
   sendUpdate: SendUpdate;
+  cookies: { sessionId?: string };
 }

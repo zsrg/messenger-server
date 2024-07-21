@@ -7,7 +7,6 @@ export interface CreteSessionRequest extends Request {
 }
 
 export interface SessionRequest extends Request {
-  cookies: { sessionId: string };
   sessionData: SessionData;
 }
 

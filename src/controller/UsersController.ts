@@ -21,6 +21,11 @@ class UsersController extends Controller<UsersService> {
   public creteSession = async (req: RequestsTypes.CreteSessionRequest, res: Response) => {
     try {
       const { login, password }: RequestsTypes.CreteSessionRequest["body"] = req.body;
+      const { sessionId }: RequestsTypes.CreteSessionRequest["cookies"] = req.cookies;
+
+      if (sessionId && this.service.getSessionData(sessionId, false)) {
+        return res.status(HTTPStatus.Forbidden).json({ code: "ACTIVE_SESSION_EXISTS_IN_BROWSER", message: "An active session already exists in this browser" });
+      }
 
       if (!login || !password) {
         return res.status(HTTPStatus.BadRequest).json({ code: "LOGIN_OR_PASSWORD_NOT_SPECIFIED", message: "Login or password not specified" });

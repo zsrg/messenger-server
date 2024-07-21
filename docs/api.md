@@ -79,6 +79,15 @@ When a session is successfully created, a cookie is set that must be passed to s
 }
 ```
 
+- `403` - Returned when active session already exists in this browser.
+
+```json
+{
+  "code": "ACTIVE_SESSION_EXISTS_IN_BROWSER",
+  "message": "An active session already exists in this browser"
+}
+```
+
 ### 2.2. `GET` `/api/session/{{sessionId}}` - Returns session information
 
 #### Request
