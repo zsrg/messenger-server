@@ -41,8 +41,8 @@ Example:
 
 ## Command line options
 
-- `-v`, `--version` - print command line options
-- `-h`, `--help` - print version
+- `-v`, `--version` - print version
+- `-h`, `--help` - print command line options
 
 ## Database
 
