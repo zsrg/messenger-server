@@ -26,12 +26,12 @@ class MessagesService extends Service<MessagesRepository> {
   /**
    * Get messages
    * @param {number} dialogId
+   * @param {number} sinceId
    * @param {number} limit
-   * @param {number} offset
    * @returns {Promise<MessageData[]>}
    */
-  public async getMessages(dialogId: number, limit: number, offset: number): Promise<MessageData[]> {
-    return (await this.repository.getMessages(dialogId, limit, offset))?.map(
+  public async getMessages(dialogId: number, sinceId: number, limit: number): Promise<MessageData[]> {
+    return (await this.repository.getMessages(dialogId, sinceId, limit))?.map(
       (data: MessageDatabaseData) => this.toCamelCase(data)
     );
   }

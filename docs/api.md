@@ -554,12 +554,12 @@ When a session is successfully created, a cookie is set that must be passed to s
 
 - Query:
 
-  - `limit` - Number of messages from end (optional, default 1000)
-  - `offset` - Message offset from end (optional, default 0)
+  - `sinceId` - ID of the message before which the data will be received (optional, default `-1` - last message)
+  - `limit` - Number of messages will be received (optional, default `100`)
 
 #### Response
 
-- `200` - Returns a list of dialog messages.
+- `206` - Returns a list of dialog messages.
 
 ```json
 [

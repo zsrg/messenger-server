@@ -15,6 +15,7 @@ export interface ServerParams {
 export enum HTTPStatus {
   OK = 200,
   Created = 201,
+  PartialContent = 206,
   BadRequest = 400,
   Unauthorized = 401,
   Forbidden = 403,

@@ -21,16 +21,16 @@ class MessagesRepository extends Repository {
   }
 
   /**
-   * Generate messages
+   * Get messages
    * @param {number} dialogId
+   * @param {number} sinceId
    * @param {number} limit
-   * @param {number} offset
    * @returns {Promise<MessageDatabaseData[]>}
    */
-  public async getMessages(dialogId: number, limit: number, offset: number): Promise<MessageDatabaseData[]> {
+  public async getMessages(dialogId: number, sinceId: number, limit: number): Promise<MessageDatabaseData[]> {
     const data = await this.client.query(
-      `SELECT * FROM (SELECT * FROM messages WHERE dialog_id = $1 ORDER BY id DESC LIMIT $2 OFFSET $3) AS messages ORDER BY id ASC`,
-      [dialogId, limit, offset]
+      `SELECT * FROM (SELECT * FROM messages WHERE dialog_id = $1 AND (id < $2 OR $2 = -1) ORDER BY id DESC LIMIT $3) AS messages ORDER BY id ASC`,
+      [dialogId, sinceId, limit]
     );
 
     return data.rows;

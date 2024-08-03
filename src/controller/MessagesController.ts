@@ -50,7 +50,7 @@ class MessagesController extends Controller<MessagesService> {
   public getMessages = async (req: RequestsTypes.GetMessagesRequest, res: Response) => {
     try {
       const { dialogId }: RequestsTypes.GetMessagesRequest["params"] = req.params;
-      const { limit = "1000", offset = "0" }: RequestsTypes.GetMessagesRequest["query"] = req.query;
+      const { sinceId = "-1", limit = "100" }: RequestsTypes.GetMessagesRequest["query"] = req.query;
       const { userId }: RequestsTypes.GetMessagesRequest["sessionData"] = req.sessionData;
 
       if (!dialogId) {
@@ -61,8 +61,8 @@ class MessagesController extends Controller<MessagesService> {
         return;
       }
 
-      const messages: MessageData[] = await this.service.getMessages(+dialogId, +limit, +offset);
-      return res.status(HTTPStatus.OK).json(messages);
+      const messages: MessageData[] = await this.service.getMessages(+dialogId, +sinceId, +limit);
+      return res.status(HTTPStatus.PartialContent).json(messages);
 
     } catch (e) {
       return res.status(HTTPStatus.InternalServerError).json({ message: e.message });

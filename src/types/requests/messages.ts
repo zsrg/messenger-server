@@ -6,7 +6,7 @@ export interface SendMessageRequest extends SessionRequest {
 
 export interface GetMessagesRequest extends SessionRequest {
   params: { dialogId: string };
-  query: { limit: string; offset: string };
+  query: { sinceId: string; limit: string; };
 }
 
 export interface DeleteDialogMessagesRequest extends SessionRequest {
