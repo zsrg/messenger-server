@@ -39,7 +39,9 @@ if (!server?.port || !database?.user || !database?.password || !database?.host |
 const app = express();
 const client = new Client(database);
 
-client.connect();
+client.connect().catch((e: Error) => {
+  Logger.critical(e.message);
+});
 
 const httpLogger = new HttpLogger(Logger);
 app.use(httpLogger.loggerMiddleware);
