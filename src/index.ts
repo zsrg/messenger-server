@@ -135,4 +135,6 @@ app.use((req: Request, res: Response) => {
 
 app.listen(server.port, () => {
   Logger.info(`Server listening on port ${server.port}`);
+}).on("error", (e: Error) => {
+  Logger.critical(e.message);
 });
