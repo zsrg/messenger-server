@@ -27,7 +27,7 @@ command.version(version, "-v, --version", "print version");
 command.parse();
 
 Logger.setLevel(env.NODE_ENV === "development" ? "DEBUG" : "INFO");
-Logger.setFile(LOGS_FOLDER, "{{DATE}}.log");
+Logger.setFile(LOGS_FOLDER, "{{DATE}}.log", { midnightRotation: true });
 
 const { server, database }: Config = Files.readFile(CONFIG_PATH) || {};
 
