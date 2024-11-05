@@ -1,5 +1,7 @@
 # messenger-server
 
+![screenshot](./docs/screenshot.png)
+
 ## Available scripts
 
 In the project directory, you can run:
