@@ -38,7 +38,7 @@ CREATE TABLE messages
     user_id integer NOT NULL,
     date timestamp with time zone NOT NULL,
     text text,
-    attachmentId integer,
+    attachment_id integer,
     PRIMARY KEY (id)
 );
 
